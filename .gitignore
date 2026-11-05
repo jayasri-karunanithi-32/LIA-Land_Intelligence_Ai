@@ -17,3 +17,5 @@ Thumbs.db
 # Data
 *.log
 processing_state.json
+
+__init__.py
