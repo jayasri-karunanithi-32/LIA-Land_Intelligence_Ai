@@ -1,0 +1,62 @@
+.page {
+    min-height: 100vh;
+    background:
+        linear-gradient(rgba(10, 25, 20, 0.65), rgba(10, 25, 20, 0.75)),
+        url("/land-background.jpg");
+
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.content {
+    max-width: 750px;
+    text-align: center;
+    color: white;
+}
+
+.content h1 {
+    font-size: clamp(38px, 6vw, 64px);
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.content p {
+    font-size: 23px;
+    margin-bottom: 18px;
+}
+
+.content span {
+    display: block;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+.button {
+    display: inline-block;
+    padding: 14px 36px;
+    background: #ffffff;
+    color: #173c2d;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #dcebdc;
+    transform: translateY(-2px);
+}

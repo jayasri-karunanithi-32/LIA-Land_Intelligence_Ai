@@ -1,0 +1,337 @@
+/* =========================================
+   LAND INTELLIGENCE AI
+   FOREST LUXE + CHAMPAGNE GOLD
+========================================= */
+
+/* Color Palette */
+:root {
+  --forest-dark: #102D20;
+  --forest-primary: #173B2A;
+  --forest-green: #244B32;
+  --forest-light: #496747;
+
+  --gold: #D6B875;
+  --champagne: #E8D5A8;
+  --gold-muted: #B99B61;
+
+  --ivory: #F5F0E3;
+  --cream: #EDE5D2;
+  --text-dark: #263D30;
+  --text-muted: #746D5B;
+}
+
+/* Main Dashboard */
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 15% 15%,
+      rgba(91, 119, 69, 0.38),
+      transparent 45%),
+    radial-gradient(ellipse at 85% 80%,
+      rgba(198, 154, 69, 0.12),
+      transparent 40%),
+    linear-gradient(135deg,
+      #102D20 0%,
+      #193D2A 45%,
+      #263F2C 75%,
+      #102D20 100%);
+  color: var(--ivory);
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+  background: rgba(13, 37, 25, 0.92);
+  padding: 22px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(214, 184, 117, 0.55);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+}
+
+.header h2 {
+  color: var(--champagne);
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.header span {
+  color: #D9D0B9;
+  font-size: 14px;
+}
+
+/* Main Content */
+.main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 55px 25px;
+}
+
+/* Dashboard Sections */
+.location,
+.chat,
+.insights {
+  background: rgba(245, 240, 227, 0.97);
+  padding: 30px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+
+  border: 1px solid rgba(214, 184, 117, 0.75);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  transition: box-shadow 0.3s ease;
+}
+
+.location:hover,
+.chat:hover,
+.insights:hover {
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(214, 184, 117, 0.2);
+}
+
+/* Section Headings */
+.location h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: var(--forest-primary);
+  font-weight: 700;
+}
+
+.chat h2,
+.insights h2 {
+  margin-bottom: 15px;
+  color: var(--forest-primary);
+  font-weight: 700;
+}
+
+.location p,
+.chat p {
+  color: var(--text-muted);
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+/* Input Layouts */
+.locationForm,
+.chatForm {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Location and Chat Inputs */
+.locationForm input,
+.chatForm input {
+  flex: 1;
+  min-width: 150px;
+  padding: 13px;
+
+  border: 1px solid #D4C49F;
+  border-radius: 7px;
+
+  font-size: 14px;
+  background: #FFFCF4;
+  color: var(--text-dark);
+
+  transition: all 0.3s ease;
+}
+
+.locationForm input::placeholder,
+.chatForm input::placeholder {
+  color: #91856D;
+}
+
+/* Input Focus */
+.locationForm input:focus,
+.chatForm input:focus {
+  outline: none;
+  border-color: var(--gold-muted);
+
+  box-shadow:
+    0 0 0 3px rgba(214, 184, 117, 0.22);
+}
+
+/* Buttons */
+.locationForm button,
+.chatForm button {
+  padding: 13px 22px;
+
+  border: 1px solid var(--gold-muted);
+  border-radius: 7px;
+
+  background: linear-gradient(135deg,
+      #244B32,
+      #173B2A);
+
+  color: var(--champagne);
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.locationForm button:hover,
+.chatForm button:hover {
+  background: linear-gradient(135deg,
+      #D6B875,
+      #E8D5A8);
+
+  color: #173B2A;
+  border-color: #C19A51;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(185, 155, 97, 0.28);
+}
+
+/* Insight Cards */
+.insightGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.insightGrid div {
+  background: linear-gradient(135deg,
+      #F0E5CC,
+      #E6D5B2);
+
+  padding: 25px 15px;
+  border-radius: 9px;
+
+  text-align: center;
+  font-weight: 600;
+
+  color: var(--forest-primary);
+
+  border: 1px solid #D6BD87;
+
+  transition: all 0.3s ease;
+}
+
+.insightGrid div:hover {
+  background: linear-gradient(135deg,
+      #E8D5A8,
+      #D6B875);
+
+  color: #102D20;
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 8px 20px rgba(185, 155, 97, 0.25);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .main {
+    padding: 25px 15px;
+  }
+
+  .location,
+  .chat,
+  .insights {
+    padding: 22px;
+  }
+
+  .insightGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Accessibility */
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  .page *,
+  .page *::before,
+  .page *::after {
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
+
+/* Premium Card Refinements */
+.location,
+.chat,
+.insights {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.16),
+    0 2px 8px rgba(214, 184, 117, 0.08);
+}
+
+/* Elegant Gold Heading Accent */
+.location h1::after,
+.chat h2::after,
+.insights h2::after {
+  content: "";
+  display: block;
+  width: 55px;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg,
+      #B99B61,
+      #E8D5A8);
+}
+
+/* Premium Button Interaction */
+.locationForm button,
+.chatForm button {
+  letter-spacing: 0.3px;
+  box-shadow: 0 3px 10px rgba(16, 45, 32, 0.15);
+}
+
+.locationForm button:active,
+.chatForm button:active {
+  transform: scale(0.97);
+}
+
+/* Refined Insight Cards */
+.insightGrid div {
+  position: relative;
+  overflow: hidden;
+}
+
+.insightGrid div:hover {
+  border-color: #B99B61;
+}
+
+/* Smooth Card Transitions */
+.location,
+.chat,
+.insights,
+.insightGrid div,
+.locationForm button,
+.chatForm button {
+  transition: all 0.3s ease;
+}
+
+/* Better Input Interaction */
+.locationForm input:hover,
+.chatForm input:hover {
+  border-color: #B99B61;
+}
+
+/* Selection Colour */
+.page ::selection {
+  background: #D6B875;
+  color: #102D20;
+}
