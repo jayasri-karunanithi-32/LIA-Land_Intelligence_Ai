@@ -100,7 +100,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://vercel.com/jayasri-karunanithi-32/lia-land-intelligence-ai/4s62T346ifdjLYQ1tqni59wssAiF",
+        "https://lia-land-intelligence-ai.vercel.app/",
     ],
     allow_credentials=False,
     allow_methods=["*"],

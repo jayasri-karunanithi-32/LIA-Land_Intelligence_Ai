@@ -335,3 +335,28 @@
   background: #D6B875;
   color: #102D20;
 }
+
+/* Backend Response */
+.answer {
+  background: #E8DCC5;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #D2BE9E;
+}
+
+.answer h2 {
+  color: #173B2A;
+  margin-bottom: 12px;
+}
+
+.answer p {
+  color: #26352B;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.error {
+  color: #9B2929;
+  margin-bottom: 20px;
+}
