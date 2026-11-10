@@ -13,6 +13,7 @@ import logging
 from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.pg_vector import ping_database
 from app.ai.rag.vector_store import vector_store
@@ -94,6 +95,16 @@ app = FastAPI(
     description="Intelligent RAG pipeline for land documents and geospatial analytics",
     version="1.0.0",
     lifespan=lifespan
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://vercel.com/jayasri-karunanithi-32/lia-land-intelligence-ai/4s62T346ifdjLYQ1tqni59wssAiF",
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
