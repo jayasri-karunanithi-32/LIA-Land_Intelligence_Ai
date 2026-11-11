@@ -141,15 +141,7 @@ export default function Home() {
           </section>
         )}
 
-        <section className={styles.insights}>
-          <h2>Area Insights</h2>
-
-          <div className={styles.insightGrid}>
-            <div>Transport Resources</div>
-            <div>Water Resources</div>
-            <div>Infrastructure</div>
-          </div>
-        </section>
+    
       </main>
     </div>
   );
