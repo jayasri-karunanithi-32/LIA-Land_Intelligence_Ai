@@ -9,7 +9,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function Home() {
   const [village, setVillage] = useState("");
   const [taluk, setTaluk] = useState("");
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState("Tiruchirappalli");
 
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -99,7 +99,7 @@ export default function Home() {
             <input
               placeholder="District"
               value={district}
-              onChange={(e) => setDistrict(e.target.value)}
+              readOnly
             />
 
             <button onClick={handleExplore} disabled={loading}>
@@ -141,7 +141,7 @@ export default function Home() {
           </section>
         )}
 
-    
+
       </main>
     </div>
   );
