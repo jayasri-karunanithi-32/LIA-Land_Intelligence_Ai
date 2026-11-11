@@ -1,3 +1,4 @@
+
 """
 LIA - Vector Store Module (PostgreSQL + pgvector)
 
@@ -40,11 +41,11 @@ class VectorStore:
     def create_tables_if_not_exist(self) -> bool:
         """
         Creates the 'documents' and 'chunks' tables in PostgreSQL if they do not exist already.
-        
+
         Tables created:
         1. 'documents': Stores file-level metadata (filename, SHA-256 hash, upload timestamps).
            The 'file_hash' column has a UNIQUE constraint to prevent duplicate ingestion.
-        2. 'chunks': Stores individual text sections along with their vector embeddings.
+        2. 'chunks': Stores text chunks and their vector embeddings.
         """
         if not self.db_url:
             logger.warning("[DB] Cannot create tables: Database URL is not configured.")
@@ -52,10 +53,8 @@ class VectorStore:
 
         try:
             with psycopg.connect(self.db_url, connect_timeout=5) as connection:
-                # Enable the pgvector extension for storing vector embeddings
                 connection.execute("CREATE EXTENSION IF NOT EXISTS vector;")
 
-                # Table 1: High-level document records (one entry per file)
                 connection.execute("""
                     CREATE TABLE IF NOT EXISTS documents (
                         document_id TEXT PRIMARY KEY,
@@ -71,7 +70,6 @@ class VectorStore:
                     );
                 """)
 
-                # Table 2: Text chunks and their vector embeddings (many entries per file)
                 connection.execute("""
                     CREATE TABLE IF NOT EXISTS chunks (
                         id TEXT PRIMARY KEY,
@@ -110,10 +108,6 @@ class VectorStore:
     async def get_document_by_hash(self, file_hash: str) -> dict | None:
         """
         Checks if a file with this exact SHA-256 content hash has already been ingested.
-
-        Returns:
-            dict: The existing document record if found in the database.
-            None: If the hash does not exist (meaning it's a new or modified file).
         """
         if not self.db_url:
             return None
@@ -160,7 +154,6 @@ class VectorStore:
                 raise ValueError("Chunks and embeddings count mismatch")
 
             with self.get_connection() as connection:
-                # 1. Insert document-level metadata
                 connection.execute("""
                     INSERT INTO documents (
                         document_id,
@@ -189,7 +182,6 @@ class VectorStore:
                     document_record["embedding_model"]
                 ))
 
-                # 2. Insert each text chunk along with its vector embedding
                 for chunk, vector in zip(chunks, embeddings):
                     connection.execute("""
                         INSERT INTO chunks (
@@ -232,13 +224,6 @@ class VectorStore:
         Queries the vector store using cosine distance (<=> operator in pgvector)
         to find the most relevant chunks matching the user's question embedding.
         """
-        
-    async def retrieve(
-        self,
-        query_embedding: list[float],
-        n_results: int = 5,
-        document_id: str | None = None
-    ) -> list[dict]:
 
         def _retrieve():
             with self.get_connection() as connection:
@@ -252,12 +237,13 @@ class VectorStore:
                             FROM chunks
                             WHERE filename_id = %s
                         ) AS ranked_chunks
-                        WHERE distance <= 0.40
+                        WHERE distance <= %s
                         ORDER BY distance ASC
                         LIMIT %s;
                     """, (
                         query_embedding,
                         document_id,
+                        settings.RAG_SIMILARITY_THRESHOLD,
                         n_results
                     )).fetchall()
 
@@ -269,11 +255,12 @@ class VectorStore:
                                    embedding <=> %s::vector AS distance
                             FROM chunks
                         ) AS ranked_chunks
-                        WHERE distance <= 0.40
+                        WHERE distance <= %s
                         ORDER BY distance ASC
                         LIMIT %s;
                     """, (
                         query_embedding,
+                        settings.RAG_SIMILARITY_THRESHOLD,
                         n_results
                     )).fetchall()
 
@@ -294,7 +281,6 @@ class VectorStore:
                 ]
 
         return await asyncio.to_thread(_retrieve)
-
 
 
 # Singleton instance

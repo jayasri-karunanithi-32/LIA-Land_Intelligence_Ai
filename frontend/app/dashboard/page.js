@@ -54,8 +54,15 @@ export default function Home() {
     }
   }
 
+
   function handleExplore() {
-    const locationPrompt = `Provide land and area insights for Village: ${village}, Taluk: ${taluk}, District: ${district}. Include transport resources, water resources and infrastructure where relevant.`;
+    if (!village.trim() || !taluk.trim() || !district.trim()) {
+      setError("Please enter Village, Taluk and District.");
+      setAnswer("");
+      return;
+    }
+
+    const locationPrompt = `Provide land and area insights for Village: ${village.trim()}, Taluk: ${taluk.trim()}, District: ${district.trim()}. Include transport resources, water resources and infrastructure where relevant.`;
 
     askBackend(locationPrompt);
   }

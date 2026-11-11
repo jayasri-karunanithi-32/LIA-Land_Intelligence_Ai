@@ -172,7 +172,7 @@ class ModelRegistry:
 
     def _get_mistral_client(self):
         if self._mistral_client is None:
-            from mistralai import Mistral
+            from mistralai.client import Mistral
             from app.core.config import settings
 
             self._mistral_client = Mistral(

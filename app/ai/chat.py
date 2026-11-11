@@ -3,7 +3,7 @@ import json
 import random
 from collections.abc import AsyncIterator
 from app.ai.rag.pipeline import rag_pipeline
-from app.ai.llm import models
+from app.ai.models import models
 from app.ai.prompts.gemini_prompt import (
     SYSTEM_PROMPT,
     RAG_PROMPT_TEMPLATE

@@ -98,7 +98,7 @@ class Settings:
     RAG_TOP_K: int = int(os.getenv("RAG_TOP_K", "5"))
 
     RAG_SIMILARITY_THRESHOLD: float = float(
-        os.getenv("RAG_SIMILARITY_THRESHOLD", "0.3")
+        os.getenv("RAG_SIMILARITY_THRESHOLD", "0.4")
     )
 
     # ================= FASTAPI =================
