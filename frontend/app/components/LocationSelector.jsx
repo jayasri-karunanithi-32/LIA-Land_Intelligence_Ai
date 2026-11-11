@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import talukVillageData from "@/data/trichy_taluk_villages.json";
+import talukVillageData from "../data/trichy_taluk_villages.json";
 
 export default function LocationSelector({
   taluk,

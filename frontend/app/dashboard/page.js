@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
-import LocationSelector from "@/components/LocationSelector";
+import LocationSelector from "../components/LocationSelector";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
