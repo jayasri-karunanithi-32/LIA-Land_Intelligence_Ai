@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import LocationSelector from "@/components/LocationSelector";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -54,10 +55,9 @@ export default function Home() {
     }
   }
 
-
   function handleExplore() {
     if (!village.trim() || !taluk.trim() || !district.trim()) {
-      setError("Please enter Village, Taluk and District.");
+      setError("Please select Village, Taluk and District.");
       setAnswer("");
       return;
     }
@@ -84,16 +84,11 @@ export default function Home() {
           <p>Enter your location to explore area insights.</p>
 
           <div className={styles.locationForm}>
-            <input
-              placeholder="Village"
-              value={village}
-              onChange={(e) => setVillage(e.target.value)}
-            />
-
-            <input
-              placeholder="Taluk"
-              value={taluk}
-              onChange={(e) => setTaluk(e.target.value)}
+            <LocationSelector
+              taluk={taluk}
+              village={village}
+              setTaluk={setTaluk}
+              setVillage={setVillage}
             />
 
             <input
@@ -130,7 +125,7 @@ export default function Home() {
           </div>
         </section>
 
-        {loading && <p> LIA is processing your request...</p>}
+        {loading && <p>LIA is processing your request...</p>}
 
         {error && <p className={styles.error}>{error}</p>}
 
@@ -140,8 +135,6 @@ export default function Home() {
             <p>{answer}</p>
           </section>
         )}
-
-
       </main>
     </div>
   );
