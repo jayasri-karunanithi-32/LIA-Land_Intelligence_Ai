@@ -64,12 +64,12 @@ class Settings:
         os.getenv("MAX_CONCURRENCY", "1")
     )
     RATE_LIMIT_DELAY: float = float(
-        os.getenv("RATE_LIMIT_DELAY", "50.0")
+        os.getenv("RATE_LIMIT_DELAY", "60.0")
     )
 
     # Exponential backoff
-    BACKOFF_INITIAL_WAIT: float = 2.0
-    BACKOFF_MAX_WAIT: float = 120.0
+    BACKOFF_INITIAL_WAIT: float = 60.0
+    BACKOFF_MAX_WAIT: float = 240.0
     BACKOFF_MULTIPLIER: float = 2.0
     BACKOFF_MAX_RETRIES: int = 3
 
