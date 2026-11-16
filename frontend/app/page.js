@@ -19,7 +19,7 @@ export default function Home() {
                         through intelligent location-based research.
                     </span>
 
-                    <Link href="/dashboard" className={styles.button}>
+                    <Link href="/login" className={styles.button}>
                         Get Started →
                     </Link>
                 </section>
