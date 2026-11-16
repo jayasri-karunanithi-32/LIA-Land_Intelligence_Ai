@@ -95,7 +95,7 @@ class Settings:
 
     # ================= RAG CONFIGURATION =================
 
-    RAG_TOP_K: int = int(os.getenv("RAG_TOP_K", "5"))
+    RAG_TOP_K: int = int(os.getenv("RAG_TOP_K", "50"))
 
     RAG_SIMILARITY_THRESHOLD: float = float(
         os.getenv("RAG_SIMILARITY_THRESHOLD", "0.4")

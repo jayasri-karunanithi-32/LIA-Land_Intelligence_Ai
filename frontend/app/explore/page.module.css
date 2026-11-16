@@ -1,0 +1,108 @@
+.layout {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.main {
+    margin-left: 260px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: 35px;
+}
+
+.header h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.header p,
+.card>p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.card,
+.result {
+    max-width: 750px;
+    padding: 30px;
+    background: var(--surface-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+}
+
+.card h1 {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.card>p {
+    margin-bottom: 25px;
+}
+
+.district {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.district label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.district input {
+    padding: 13px;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.card button {
+    margin-top: 25px;
+    padding: 13px 24px;
+    border: none;
+    border-radius: 9px;
+    background: var(--emerald);
+    color: white;
+    font-weight: 600;
+}
+
+.card button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.result {
+    margin-top: 25px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.result h2 {
+    margin-bottom: 15px;
+    color: var(--emerald);
+}
+
+.error {
+    color: #e36b6b;
+    margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+    .main {
+        margin-left: 220px;
+        padding: 22px 15px;
+    }
+
+    .card,
+    .result {
+        padding: 20px;
+    }
+}
