@@ -99,7 +99,8 @@ class VectorStore:
         """
         connection = psycopg.connect(
             self.db_url,
-            row_factory=dict_row
+            row_factory=dict_row,
+            prepare_threshold=None
         )
         register_vector(connection)
         logger.info(f"[DB CONNECTION] Using database: {self.db_url.split('@')[-1]}")
