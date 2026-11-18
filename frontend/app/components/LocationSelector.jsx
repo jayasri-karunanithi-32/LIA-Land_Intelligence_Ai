@@ -1,7 +1,8 @@
+
 "use client";
 
-import { useState } from "react";
 import talukVillageData from "../data/trichy_taluk_villages.json";
+import styles from "./LocationSelector.module.css";
 
 export default function LocationSelector({
   taluk,
@@ -16,38 +17,42 @@ export default function LocationSelector({
     : [];
 
   return (
-    <div>
-      <label>Taluk</label>
-      <select
-        value={taluk}
-        onChange={(e) => {
-          setTaluk(e.target.value);
-          setVillage("");
-        }}
-      >
-        <option value="">Select Taluk</option>
+    <div className={styles.locationGrid}>
+      <div className={styles.field}>
+        <label htmlFor="taluk">Taluk</label>
+        <select
+          id="taluk"
+          value={taluk}
+          onChange={(e) => {
+            setTaluk(e.target.value);
+            setVillage("");
+          }}
+        >
+          <option value="">Select Taluk</option>
+          {taluks.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {taluks.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-
-      <label>Village</label>
-      <select
-        value={village}
-        disabled={!taluk}
-        onChange={(e) => setVillage(e.target.value)}
-      >
-        <option value="">Select Village</option>
-
-        {villages.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+      <div className={styles.field}>
+        <label htmlFor="village">Village</label>
+        <select
+          id="village"
+          value={village}
+          disabled={!taluk}
+          onChange={(e) => setVillage(e.target.value)}
+        >
+          <option value="">Select Village</option>
+          {villages.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }

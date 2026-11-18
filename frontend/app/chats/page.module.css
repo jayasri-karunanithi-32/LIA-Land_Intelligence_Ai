@@ -1,0 +1,143 @@
+
+.layout {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.main {
+    margin-left: 260px;
+    padding: 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    margin-bottom: 35px;
+}
+
+.header h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 650px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.illustration {
+    margin-bottom: 28px;
+}
+
+.iconCircle {
+    position: relative;
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    background: var(--surface-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+}
+
+.sparkle {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    font-size: 24px;
+    color: var(--gold);
+}
+
+.content h1 {
+    font-size: 27px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.description {
+    max-width: 480px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 17px;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-bg);
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 22px;
+    border-radius: 9px;
+    background: var(--emerald);
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.button span {
+    font-size: 19px;
+}
+
+@media (max-width: 700px) {
+    .main {
+        margin-left: 0;
+        padding: 75px 20px 25px;
+    }
+
+    .content {
+        padding: 25px 10px;
+    }
+
+    .content h1 {
+        font-size: 23px;
+    }
+
+    .description {
+        font-size: 14px;
+    }
+}

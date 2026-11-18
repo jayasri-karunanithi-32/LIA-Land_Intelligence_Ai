@@ -1,0 +1,215 @@
+
+.layout {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.main {
+    margin-left: 260px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.profileCard {
+    max-width: 850px;
+    padding: 30px;
+    background: var(--surface-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-bottom: 25px;
+}
+
+.avatar {
+    width: 85px;
+    height: 85px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--active-bg);
+    border: 1px solid var(--border-color);
+    font-size: 38px;
+}
+
+.userInfo h1 {
+    font-size: 23px;
+    margin-bottom: 6px;
+}
+
+.userInfo > p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.accountStatus {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--emerald);
+}
+
+.divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 22px 0;
+}
+
+.section h2 {
+    font-size: 18px;
+    margin-bottom: 7px;
+}
+
+.sectionDescription {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.infoField {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.infoField label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.infoField div {
+    padding: 13px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--hover-bg);
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.preference {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--hover-bg);
+}
+
+.preference strong {
+    font-size: 14px;
+}
+
+.preference p,
+.preference > span {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.preference > span {
+    text-align: right;
+}
+
+.footer {
+    margin-top: 25px;
+    padding: 15px;
+    background: var(--hover-bg);
+    border-radius: 9px;
+}
+
+.footer p {
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.backLink {
+    display: inline-block;
+    margin-top: 22px;
+    color: var(--emerald);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+    .main {
+        margin-left: 0;
+        padding: 75px 18px 25px;
+    }
+
+    .profileCard {
+        padding: 20px;
+    }
+
+    .profileHeader {
+        gap: 15px;
+    }
+
+    .avatar {
+        width: 65px;
+        height: 65px;
+        font-size: 30px;
+    }
+
+    .userInfo h1 {
+        font-size: 19px;
+    }
+
+    .infoGrid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .preference {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .preference > span {
+        text-align: left;
+    }
+}

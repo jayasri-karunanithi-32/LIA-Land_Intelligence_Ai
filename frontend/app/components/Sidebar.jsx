@@ -6,35 +6,37 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styles from "./Sidebar.module.css";
 import ThemeToggle from "./ThemeToggle";
+import { useRouter } from "next/navigation";
 
 const navigation = [
-  { name: "Chat", path: "/dashboard", icon: "💬" },
+  { name: "Chats", path: "/chats", icon: "💬" },
   { name: "Explore Area", path: "/explore", icon: "🧭" },
   { name: "Know Water Level", path: "/water-level", icon: "💧" },
 ];
 
 export default function Sidebar({ onNewChat }) {
+  const router = useRouter();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
-      <button
-        className={styles.menuButton}
-        onClick={() => setCollapsed(!collapsed)}
-        aria-label="Toggle sidebar"
-      >
-        ☰
-      </button>
-
       {collapsed && (
         <div
           className={styles.overlay}
           onClick={() => setCollapsed(false)}
         />
       )}
+      <button
+        className={`${styles.menuButton} ${collapsed ? styles.menuClosed : ""}`}
+        onClick={() => setCollapsed(!collapsed)}
+        aria-label="Toggle sidebar"
+      >
+        ☰
+      </button>
 
       <aside className={`${styles.sidebar} ${collapsed ? styles.closed : ""}`}>
+
         <div className={styles.logo}>
           <span>🌿</span>
           <h2>LIA</h2>
@@ -44,6 +46,7 @@ export default function Sidebar({ onNewChat }) {
           className={styles.newChat}
           onClick={() => {
             onNewChat?.();
+            router.push("/dashboard");
             setCollapsed(false);
           }}
         >
@@ -56,9 +59,8 @@ export default function Sidebar({ onNewChat }) {
               key={item.path}
               href={item.path}
               onClick={() => setCollapsed(false)}
-              className={`${styles.navLink} ${
-                pathname === item.path ? styles.active : ""
-              }`}
+              className={`${styles.navLink} ${pathname === item.path ? styles.active : ""
+                }`}
             >
               <span>{item.icon}</span>
               {item.name}
@@ -68,16 +70,19 @@ export default function Sidebar({ onNewChat }) {
 
         <div className={styles.bottom}>
           <ThemeToggle />
-
           <button className={styles.bottomLink}>⚙ Settings</button>
 
-          <div className={styles.profile}>
+          <Link
+            href="/profile"
+            className={styles.profile}
+            onClick={() => setCollapsed(false)}
+          >
             <span>👤</span>
             <div>
               <strong>LIA User</strong>
-              <small>Land Intelligence AI</small>
+              <small>My Profile</small>
             </div>
-          </div>
+          </Link>
         </div>
       </aside>
     </>

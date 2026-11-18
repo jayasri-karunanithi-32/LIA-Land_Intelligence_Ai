@@ -92,7 +92,22 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 15px 8px 5px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 9px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.profile:hover {
+    background: var(--hover-bg);
+}
+
+.profile span {
+    font-size: 18px;
 }
 
 .profile div {
@@ -102,11 +117,11 @@
 }
 
 .profile strong {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .profile small {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-secondary);
 }
 
@@ -118,18 +133,24 @@
 
 .menuButton {
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 22px;
+    left: 244px;
     z-index: 102;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border: 1px solid var(--border-color);
     border-radius: 9px;
     background: var(--surface-bg);
     color: var(--text-primary);
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
+    transition: left 0.3s ease;
 }
+
+.menuClosed {
+    left: 10px;
+}
+
 
 .sidebar {
     transition: transform 0.3s ease;
@@ -150,4 +171,9 @@
     .sidebar {
         width: 260px;
     }
+}
+
+.sidebar {
+    position: fixed;
+    transition: transform 0.3s ease;
 }
