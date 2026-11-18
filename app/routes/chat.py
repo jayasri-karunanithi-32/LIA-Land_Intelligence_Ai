@@ -5,6 +5,8 @@ from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional
 from app.ai.chat import chat_service
+from fastapi import Depends
+from app.core.auth import get_current_user
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -28,7 +30,8 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/llm", response_model=ChatResponse)
-async def chat(request: Optional[ChatRequest] = None, prompt: Optional[str] = Query(None)):
+async def chat(request: ChatRequest, current_user: dict = Depends(get_current_user),):
+# async def chat(request: Optional[ChatRequest] = None, prompt: Optional[str] = Query(None)):
     """
     Accepts prompts via JSON body: {"prompt": "..."}
     or as query parameter: /llm?prompt=...
