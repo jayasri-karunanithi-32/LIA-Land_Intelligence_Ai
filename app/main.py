@@ -19,6 +19,7 @@ from app.db.pg_vector import ping_database
 from app.ai.rag.vector_store import vector_store
 from app.ai.rag.pipeline import rag_pipeline
 from app.routes import chat
+from app.routes import github
 
 # Configure formatted logging for the entire application
 logging.basicConfig(
@@ -99,10 +100,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:3000",
         "http://127.0.0.1:3000",
         "https://lia-land-intelligence-ai.vercel.app",
     ],
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -132,3 +134,5 @@ def health():
 
 # Register chat and query routes
 app.include_router(chat.router)
+# Register GitHub MCP integration routes
+app.include_router(github.router)

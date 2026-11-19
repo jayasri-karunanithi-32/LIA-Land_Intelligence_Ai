@@ -12,6 +12,7 @@ const navigation = [
   { name: "Chats", path: "/chats", icon: "💬" },
   { name: "Explore Area", path: "/explore", icon: "🧭" },
   { name: "Know Water Level", path: "/water-level", icon: "💧" },
+  { name: "Plugins", path: "/plugins", icon: "🔌" }
 ];
 
 export default function Sidebar({ onNewChat }) {
