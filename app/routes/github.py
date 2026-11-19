@@ -135,14 +135,29 @@ async def github_oauth_start(
     Generates a CSRF state token, stores the mapping, then redirects the
     user's browser to GitHub's authorization page (or returns {"url": ...} if JSON requested).
     """
+    referer = request.headers.get("referer", "")
+    frontend_origin = (
+        "/".join(referer.split("/", 3)[:3])
+        if (referer and "://" in referer)
+        else FRONTEND_URL
+    )
+
     if not GITHUB_CLIENT_ID:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="GitHub OAuth is not configured. Set GITHUB_CLIENT_ID in .env.",
+        accept = request.headers.get("accept", "")
+        if format == "json" or "application/json" in accept or request.method == "POST":
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="GitHub OAuth is not configured. Set GITHUB_CLIENT_ID in environment.",
+            )
+        return RedirectResponse(
+            f"{frontend_origin}/plugins?github_error=github_oauth_not_configured_please_set_client_id"
         )
 
     state = secrets.token_urlsafe(32)
-    _oauth_states[state] = current_user["user_id"]
+    _oauth_states[state] = {
+        "user_id": current_user["user_id"],
+        "frontend_url": frontend_origin,
+    }
 
     params = urlencode({
         "client_id": GITHUB_CLIENT_ID,
@@ -171,8 +186,13 @@ async def github_oauth_callback(
     then stores it encrypted in the database.
     Redirects the browser to the frontend plugins page.
     """
-    # Build the destination URL for the browser redirect.
-    plugins_url = f"{FRONTEND_URL}/plugins"
+    state_data = _oauth_states.pop(state, None) if state else None
+    if isinstance(state_data, dict):
+        user_id = state_data.get("user_id")
+        plugins_url = f"{state_data.get('frontend_url', FRONTEND_URL)}/plugins"
+    else:
+        user_id = state_data
+        plugins_url = f"{FRONTEND_URL}/plugins"
 
     if error:
         logger.warning("GitHub OAuth denied by user: %s", error)
@@ -182,7 +202,6 @@ async def github_oauth_callback(
         return RedirectResponse(f"{plugins_url}?github_error=missing_code_or_state")
 
     # CSRF validation.
-    user_id = _oauth_states.pop(state, None)
     if user_id is None:
         logger.error("GitHub OAuth: invalid or replayed state token.")
         return RedirectResponse(f"{plugins_url}?github_error=invalid_state")

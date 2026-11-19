@@ -76,17 +76,17 @@ export default function GitHubConnect({ onClose }) {
     }
   }, [fetchStatus]);
 
-  // ── OAuth flow — request authorization URL securely then redirect ────────
+  // ── OAuth flow — initiate direct browser redirect to GitHub authorization ──
   async function handleOAuth() {
     setError("");
     setLoading(true);
     try {
-      const data = await apiFetch("/github/oauth/start?format=json");
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error("Unable to obtain GitHub authorization URL.");
-      }
+      const token = await getSupabaseToken();
+      if (!token) throw new Error("Not authenticated. Please log in first.");
+
+      // Direct browser navigation to backend OAuth initiation.
+      // Top-level navigation avoids browser fetch() CORS restrictions on cross-origin redirects.
+      window.location.href = `${API_BASE}/github/oauth/start?access_token=${encodeURIComponent(token)}`;
     } catch (err) {
       setError(err.message);
       setLoading(false);
