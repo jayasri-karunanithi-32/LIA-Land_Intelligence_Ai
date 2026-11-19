@@ -19,7 +19,7 @@ from urllib.parse import urlencode
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from fastapi.responses import RedirectResponse, JSONResponse
 from pydantic import BaseModel
 
@@ -124,11 +124,16 @@ async def github_status(current_user: dict = Depends(get_current_user)):
 
 
 @router.get("/oauth/start")
-async def github_oauth_start(current_user: dict = Depends(get_current_user)):
+@router.post("/oauth/start")
+async def github_oauth_start(
+    request: Request,
+    current_user: dict = Depends(get_current_user),
+    format: Optional[str] = Query(None),
+):
     """
     Initiate GitHub OAuth Web Application Flow.
     Generates a CSRF state token, stores the mapping, then redirects the
-    user's browser to GitHub's authorization page.
+    user's browser to GitHub's authorization page (or returns {"url": ...} if JSON requested).
     """
     if not GITHUB_CLIENT_ID:
         raise HTTPException(
@@ -146,6 +151,11 @@ async def github_oauth_start(current_user: dict = Depends(get_current_user)):
         "state": state,
     })
     github_auth_url = f"https://github.com/login/oauth/authorize?{params}"
+
+    accept = request.headers.get("accept", "")
+    if format == "json" or "application/json" in accept or request.method == "POST":
+        return {"url": github_auth_url}
+
     return RedirectResponse(github_auth_url)
 
 

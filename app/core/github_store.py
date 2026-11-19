@@ -39,22 +39,29 @@ CREATE TABLE IF NOT EXISTS github_connections (
 );
 """
 
+_MIGRATIONS = """
+ALTER TABLE github_connections ADD COLUMN IF NOT EXISTS login TEXT;
+ALTER TABLE github_connections ADD COLUMN IF NOT EXISTS method TEXT;
+ALTER TABLE github_connections ADD COLUMN IF NOT EXISTS scopes TEXT;
+"""
+
 
 def _conn():
     return psycopg.connect(settings.SUPABASE_DB_URL)
 
 
 def ensure_table():
-    """Create the github_connections table if it does not exist."""
+    """Create the github_connections table and ensure all required columns exist."""
     if not settings.SUPABASE_DB_URL:
         return
     try:
         with _conn() as conn:
             conn.execute(_DDL)
+            conn.execute(_MIGRATIONS)
             conn.commit()
-        logger.info("github_connections table ensured.")
+        logger.info("github_connections table and columns ensured.")
     except Exception as exc:
-        logger.error("Could not create github_connections table: %s", exc)
+        logger.error("Could not ensure github_connections table/columns: %s", exc)
 
 
 def save_connection(

@@ -76,17 +76,17 @@ export default function GitHubConnect({ onClose }) {
     }
   }, [fetchStatus]);
 
-  // ── OAuth flow — open backend redirect ───────────────────────────────────
+  // ── OAuth flow — request authorization URL securely then redirect ────────
   async function handleOAuth() {
     setError("");
     setLoading(true);
     try {
-      const token = await getSupabaseToken();
-      if (!token) throw new Error("Not authenticated.");
-      // The backend /github/oauth/start is a GET redirect, so we navigate directly.
-      // We pass the auth token as a query param because the browser won't send
-      // the Authorization header on a redirect. The backend route reads it.
-      window.location.href = `${API_BASE}/github/oauth/start?access_token=${token}`;
+      const data = await apiFetch("/github/oauth/start?format=json");
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("Unable to obtain GitHub authorization URL.");
+      }
     } catch (err) {
       setError(err.message);
       setLoading(false);
