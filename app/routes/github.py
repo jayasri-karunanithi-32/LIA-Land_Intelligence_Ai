@@ -49,7 +49,7 @@ GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET", "")
 # In development: http://localhost:8000/github/oauth/callback
 # In production:  https://<your-backend>/github/oauth/callback
 GITHUB_REDIRECT_URI = os.getenv(
-    "GITHUB_REDIRECT_URI", "http://localhost:8000/github/oauth/callback"
+    "GITHUB_REDIRECT_URI", "http://localhost:8000/github/oauth/Callback"
 )
 
 # Frontend URL — where the backend redirects after OAuth completes.

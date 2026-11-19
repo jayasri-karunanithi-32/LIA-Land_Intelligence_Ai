@@ -121,7 +121,7 @@ def connection_status(user_id: str) -> dict:
     """Return connection status without exposing the raw token."""
     with _conn() as conn:
         row = conn.execute(
-            "SELECT login, method, scopes, updated_at FROM github_connections WHERE user_id = %s",
+            "SELECT login, method, scopes, created_at FROM github_connections WHERE user_id = %s",
             (user_id,),
         ).fetchone()
     if row is None:
