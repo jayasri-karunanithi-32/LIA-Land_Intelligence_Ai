@@ -174,8 +174,8 @@ async def github_oauth_start(
     return RedirectResponse(github_auth_url)
 
 
-@router.get("/oauth/callback")
-async def github_oauth_callback(
+@router.get("/oauth/Callback")
+async def github_oauth_Callback(
     code: Optional[str] = None,
     state: Optional[str] = None,
     error: Optional[str] = None,
