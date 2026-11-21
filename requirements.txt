@@ -20,3 +20,5 @@ langchain-groq
 langchain-mistralai
 
 PyJWT[crypto]
+
+langsmith
