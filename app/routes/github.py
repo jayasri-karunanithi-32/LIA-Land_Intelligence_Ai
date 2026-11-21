@@ -31,6 +31,8 @@ from app.core.github_store import (
     get_connection,
     ensure_table,
 )
+from fastapi import Header
+from fastapi.responses import Response
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
@@ -305,19 +307,23 @@ async def github_disconnect(current_user: dict = Depends(get_current_user)):
     return {"connected": False}
 
 
+
 @router.post("/mcp")
 async def github_mcp_proxy(
     body: MCPRequest,
     current_user: dict = Depends(get_current_user),
+    mcp_session_id: Optional[str] = Header(
+        default=None,
+        alias="Mcp-Session-Id"
+    ),
+    mcp_protocol_version: Optional[str] = Header(
+        default=None,
+        alias="MCP-Protocol-Version"
+    ),
 ):
     """
-    Proxy a JSON-RPC MCP tool call to the GitHub MCP remote server.
-
-    The frontend sends:
-        { "method": "tools/call", "params": { "name": "...", "arguments": {...} } }
-
-    The backend appends the user's GitHub token from the database and
-    forwards the request to https://api.githubcopilot.com/mcp/
+    Proxy MCP requests to GitHub using the authenticated user's token.
+    Supports JSON and SSE responses and preserves MCP session headers.
     """
     user_id = current_user["user_id"]
     record = get_connection(user_id)
@@ -335,15 +341,23 @@ async def github_mcp_proxy(
         "params": body.params or {},
     }
 
+    request_headers = {
+        "Authorization": f"Bearer {record['token']}",
+        "Accept": "application/json, text/event-stream",
+        "Content-Type": "application/json",
+    }
+
+    if mcp_session_id:
+        request_headers["Mcp-Session-Id"] = mcp_session_id
+
+    if mcp_protocol_version:
+        request_headers["MCP-Protocol-Version"] = mcp_protocol_version
+
     async with httpx.AsyncClient(timeout=30) as client:
         resp = await client.post(
             GITHUB_MCP_URL,
             json=mcp_payload,
-            headers={
-                "Authorization": f"Bearer {record['token']}",
-                "Accept": "application/json,text/event-stream",
-                "Content-Type": "application/json",
-            },
+            headers=request_headers,
         )
 
     if resp.status_code == 401:
@@ -353,10 +367,36 @@ async def github_mcp_proxy(
         )
 
     if resp.status_code not in (200, 201, 202):
-        logger.error("GitHub MCP error %d: %s", resp.status_code, resp.text[:500])
+        logger.error(
+            "GitHub MCP error %d: %s",
+            resp.status_code,
+            resp.text[:500],
+        )
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail=f"GitHub MCP server returned {resp.status_code}.",
         )
 
-    return JSONResponse(content=resp.json(), status_code=200)
+    response_headers = {}
+
+    for header in (
+        "content-type",
+        "mcp-session-id",
+        "mcp-protocol-version",
+    ):
+        if header in resp.headers:
+            response_headers[header] = resp.headers[header]
+
+    logger.info(
+        "GitHub MCP response: status=%s, content_type=%s, session=%s",
+        resp.status_code,
+        resp.headers.get("content-type"),
+        bool(resp.headers.get("mcp-session-id")),
+    )
+
+    return Response(
+        content=resp.content,
+        status_code=resp.status_code,
+        headers=response_headers,
+    )
+
