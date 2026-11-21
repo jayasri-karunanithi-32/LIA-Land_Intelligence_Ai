@@ -4,8 +4,9 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 import Sidebar from "../components/Sidebar";
+import { createClient } from "@/lib/supabase/client";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const suggestions = [
   "What infrastructure is available in Trichy?",
@@ -40,10 +41,27 @@ export default function Home() {
     setError("");
 
     try {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
+      console.log("[handleChat] session exists:", !!session);
+      console.log("[handleChat] access token exists:", !!token);
+
+      if (!token) {
+        setError("Authentication required. Please log in.");
+        return;
+      }
+
+      console.log("[handleChat] dispatching fetch to", `${API_URL}/llm`);
+
       const response = await fetch(`${API_URL}/llm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ prompt }),
       });

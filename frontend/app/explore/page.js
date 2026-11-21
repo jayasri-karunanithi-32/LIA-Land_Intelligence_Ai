@@ -4,9 +4,10 @@
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import LocationSelector from "../components/LocationSelector";
+import { createClient } from "@/lib/supabase/client";
 import styles from "./page.module.css";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function ExplorePage() {
   const [village, setVillage] = useState("");
@@ -34,9 +35,23 @@ export default function ExplorePage() {
     setError("");
 
     try {
+      const supabase = createClient();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const token = session?.access_token;
+
+      if (!token) {
+        setError("Authentication required. Please log in.");
+        return;
+      }
+
       const response = await fetch(`${API_URL}/llm`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ prompt }),
       });
 

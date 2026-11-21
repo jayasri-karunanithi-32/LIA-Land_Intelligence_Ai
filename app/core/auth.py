@@ -44,11 +44,21 @@ def get_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),
     access_token: Optional[str] = Query(None),
 ):
+    logger.info(
+        "AUTH DEBUG: credentials=%s, token_present=%s",
+        credentials is not None,
+        bool(credentials and credentials.credentials)
+    )
+
     token = None
     if credentials is not None:
         token = credentials.credentials
     elif access_token is not None:
         token = access_token
+
+    logger.info("AUTH DEBUG: token extracted=%s", bool(token))
+
+    # Keep the remaining existing code unchanged
 
     if not token or not token.strip():
         raise HTTPException(
