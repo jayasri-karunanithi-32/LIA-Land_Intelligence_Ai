@@ -43,7 +43,7 @@ async def chat(request: ChatRequest, current_user: dict = Depends(get_current_us
         raise HTTPException(status_code=400, detail="Prompt cannot be empty.")
 
     try:
-        answer = await chat_service.chat(user_prompt.strip(), current_user["user_id"])
+        answer = await chat_service.chat(user_prompt.strip())
         return ChatResponse(answer=answer)
     except HTTPException:
         raise
