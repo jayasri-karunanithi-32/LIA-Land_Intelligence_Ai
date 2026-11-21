@@ -341,7 +341,7 @@ async def github_mcp_proxy(
             json=mcp_payload,
             headers={
                 "Authorization": f"Bearer {record['token']}",
-                "Accept": "application/json",
+                "Accept": "application/json,text/event-stream",
                 "Content-Type": "application/json",
             },
         )

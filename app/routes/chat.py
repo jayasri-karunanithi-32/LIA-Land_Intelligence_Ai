@@ -43,7 +43,7 @@ async def chat(request: ChatRequest, current_user: dict = Depends(get_current_us
         raise HTTPException(status_code=400, detail="Prompt cannot be empty.")
 
     try:
-        answer = await chat_service.chat(user_prompt.strip())
+        answer = await chat_service.chat(user_prompt.strip(), current_user["user_id"])
         return ChatResponse(answer=answer)
     except HTTPException:
         raise
@@ -56,7 +56,8 @@ async def chat(request: ChatRequest, current_user: dict = Depends(get_current_us
 @router.post("/llm/stream")
 async def chat_stream(
     request: Optional[ChatRequest] = None,
-    prompt: Optional[str] = Query(None)):
+    prompt: Optional[str] = Query(None),
+    current_user: dict = Depends(get_current_user)):
     user_prompt = (request.prompt if request else None) or prompt
 
     if not user_prompt or not user_prompt.strip():
@@ -68,7 +69,8 @@ async def chat_stream(
     async def event_generator():
         try:
             async for chunk in chat_service.stream_chat(
-                user_prompt.strip()
+                user_prompt.strip(),
+                current_user["user_id"]
             ):
                 yield f"data: {json.dumps({'token': chunk})}\n\n"
 
